@@ -1,0 +1,27 @@
+{
+  "name": "slackit",
+  "version": "1.0.0",
+  "description": "Slack Kit for Typescript developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulienDuf/slackit.git"
+  },
+  "keywords": [
+    "Slack",
+    "Typescript"
+  ],
+  "author": "Julien Dufresne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JulienDuf/slackit/issues"
+  },
+  "homepage": "https://github.com/JulienDuf/slackit#readme",
+  "devDependencies": {
+    "tslint": "^5.11.0",
+    "typescript": "^3.2.1"
+  }
+}
