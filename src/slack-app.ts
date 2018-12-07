@@ -1,11 +1,10 @@
 import * as express from 'express';
 import { promisify } from "util";
-import { Config } from "./config/config";
 
-export class Slackit {
+export abstract class SlackApp {
     private app: express.Application;
 
-    constructor(private config: Config) {
+    protected constructor() {
         this.init();
     }
 
@@ -13,7 +12,7 @@ export class Slackit {
         return promisify<number, void>(this.app.listen)(port);
     }
 
-    private init() {
+    protected init() {
         this.app = express();
     }
 }

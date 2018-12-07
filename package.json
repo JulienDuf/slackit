@@ -30,6 +30,7 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
+    "@slack/client": "^4.8.0",
     "express": "^4.16.4"
   }
 }
