@@ -9,13 +9,24 @@ export class SlackTeam implements OnTeamInit {
     @WebApi()
     public webAppClient: WebClient;
 
-    @RealTimeMessagingApi(true)
+    @RealTimeMessagingApi({
+        useBotToken: true
+    })
     public rtmBotClient: RTMClient;
 
-    @WebApi(true)
+    @WebApi({
+        useBotToken: true
+    })
     public webBotClient: WebClient;
 
     public async onTeamInit(): Promise<void> {
-        console.log('Team init');
+        const res = await this.webBotClient.conversations.list({
+            types: 'private_channel'
+        });
+        const channels = (res as any).channels;
+        const channel = channels.find(x => x.is_member);
+        if (channel) {
+            await this.rtmBotClient.sendMessage('Hello world!', channel.id);
+        }
     }
 }
