@@ -1,11 +1,13 @@
 import * as express from "express";
 import { promisify } from "util";
 import { TeamConfig } from "./config/team.config";
+import { CommandHandler } from "./handlers/command.handler";
 import { TeamHandler } from "./handlers/team.handler";
 import { Team } from "./interfaces/team";
 
 export class Slackit {
     private teamHandler: TeamHandler = new TeamHandler(this.team);
+    private commandHandler: CommandHandler;
     private app: express.Application;
     private teams: Team[] = [];
 
@@ -21,8 +23,15 @@ export class Slackit {
         return promisify<number, void>(this.app.listen)(port);
     }
 
+    public async registerCommands(...commands: Function[]): Promise<void> {
+        for (const command of commands) {
+            this.commandHandler.setupCommand(command);
+        }
+    }
+
     private init() {
         this.app = express();
+        this.commandHandler = new CommandHandler(this.app);
     }
 
     private initTeamApp(config: TeamConfig) {
