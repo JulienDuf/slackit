@@ -1,17 +1,19 @@
 import * as express from "express";
 import { promisify } from "util";
 import { TeamConfig } from "./config/team.config";
+import { TeamHandler } from "./handlers/team.handler";
 import { Team } from "./interfaces/team";
 
 export class Slackit {
+    private teamHandler: TeamHandler = new TeamHandler(this.team);
     private app: express.Application;
     private teams: Team[] = [];
 
-    constructor(team: Function, private config: TeamConfig) {
+    constructor(private team: Function, private config: TeamConfig) {
         this.init();
 
         if (this.config.appToken) {
-            this.initTeamApp(this.config, team);
+            this.initTeamApp(this.config);
         }
     }
 
@@ -23,13 +25,7 @@ export class Slackit {
         this.app = express();
     }
 
-    private initTeamApp(config: TeamConfig, teamDefinition: Function) {
-        const team = new teamDefinition.prototype.constructor() as Team;
-        this.teams.push(team);
-
-        // TODO: Put this in an handler
-        if (team.onTeamInit) {
-            team.onTeamInit();
-        }
+    private initTeamApp(config: TeamConfig) {
+        this.teams.push(this.teamHandler.createTeam(config));
     }
 }
