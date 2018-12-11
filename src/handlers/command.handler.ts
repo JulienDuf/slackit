@@ -11,7 +11,7 @@ export class CommandHandler {
 
     public setupCommand(target: Function) {
         const name = this.scanner.getName(target);
-        this.app.post(name, async (req, res) => {
+        this.app.post(`/${name}`, async (req, res) => {
             const teamId = req.body.teamId;
             const command = new target.prototype.constructor() as SlashCommand;
             const result = await command.execute(teamId as any, req.body.text);

@@ -20,6 +20,7 @@ export class SlackTeam implements OnTeamInit {
     public webBotClient: WebClient;
 
     public async onTeamInit(): Promise<void> {
+        await this.rtmBotClient.start();
         const res = await this.webBotClient.conversations.list({
             types: 'private_channel'
         });

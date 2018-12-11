@@ -4,6 +4,7 @@ import { TeamConfig } from "./config/team.config";
 import { CommandHandler } from "./handlers/command.handler";
 import { TeamHandler } from "./handlers/team.handler";
 import { Team } from "./interfaces/team";
+import * as bodyParser from 'body-parser';
 
 export class Slackit {
     private teamHandler: TeamHandler = new TeamHandler(this.team);
@@ -20,7 +21,7 @@ export class Slackit {
     }
 
     public async listen(port: number): Promise<void> {
-        return promisify<number, void>(this.app.listen)(port);
+        this.app.listen(port);
     }
 
     public async registerCommands(...commands: Function[]): Promise<void> {
@@ -31,6 +32,8 @@ export class Slackit {
 
     private init() {
         this.app = express();
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
         this.commandHandler = new CommandHandler(this.app);
     }
 
